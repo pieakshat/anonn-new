@@ -36,7 +36,7 @@ export async function getTwitterAuthUrl(): Promise<string> {
  * Exchange authorization code for access token via backend
  */
 export async function exchangeTwitterCode(
-  _clientId: string,
+  clientId: string,
   code: string,
   redirectUri: string,
   codeVerifier: string
@@ -55,6 +55,7 @@ export async function exchangeTwitterCode(
       code,
       redirect_uri: redirectUri,
       code_verifier: codeVerifier,
+      client_id: clientId,
     }),
   });
 
