@@ -1,0 +1,1635 @@
+{
+  "address": "2Rg4mwwtnbF8jjM9wM5F8DKod8vhZHcSQiL3VhLVgDbw",
+  "metadata": {
+    "name": "anonn",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Arcium & Anchor"
+  },
+  "instructions": [
+    {
+      "name": "evaluate_rule_callback",
+      "docs": [
+        "Callback handler for proof result",
+        "Called by Arcium after MPC computation completes"
+      ],
+      "discriminator": [
+        41,
+        114,
+        71,
+        46,
+        204,
+        52,
+        83,
+        135
+      ],
+      "accounts": [
+        {
+          "name": "arcium_program",
+          "address": "Arcj82pX7HxYKLR92qvgZUAd7vGS1k4hQvAFcPATFdEQ"
+        },
+        {
+          "name": "comp_def_account"
+        },
+        {
+          "name": "mxe_account"
+        },
+        {
+          "name": "computation_account"
+        },
+        {
+          "name": "cluster_account"
+        },
+        {
+          "name": "instructions_sysvar",
+          "address": "Sysvar1nstructions1111111111111111111111111"
+        },
+        {
+          "name": "proof_account",
+          "docs": [
+            "Proof account passed via remaining accounts for result storage"
+          ],
+          "writable": true
+        },
+        {
+          "name": "rule_account",
+          "docs": [
+            "Rule account passed via remaining accounts for expiration info"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "output",
+          "type": {
+            "defined": {
+              "name": "SignedComputationOutputs",
+              "generics": [
+                {
+                  "kind": "type",
+                  "type": {
+                    "defined": {
+                      "name": "EvaluateRuleOutput"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "init_evaluate_rule_comp_def",
+      "docs": [
+        "Initialize the evaluate_rule computation definition",
+        "Called once during deployment to register the MPC circuit",
+        "Uses offchain circuit storage to reduce transaction costs"
+      ],
+      "discriminator": [
+        212,
+        116,
+        218,
+        3,
+        191,
+        39,
+        137,
+        145
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mxe_account",
+          "writable": true
+        },
+        {
+          "name": "comp_def_account",
+          "writable": true
+        },
+        {
+          "name": "arcium_program",
+          "address": "Arcj82pX7HxYKLR92qvgZUAd7vGS1k4hQvAFcPATFdEQ"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "register_rule",
+      "docs": [
+        "Register a new verification rule",
+        "Projects call this to define their eligibility criteria"
+      ],
+      "discriminator": [
+        255,
+        251,
+        98,
+        18,
+        227,
+        84,
+        208,
+        8
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "rule_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  117,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "path": "rule_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "rule_id",
+          "type": "string"
+        },
+        {
+          "name": "wallet_age_threshold",
+          "type": "u8"
+        },
+        {
+          "name": "tx_count_threshold",
+          "type": "u8"
+        },
+        {
+          "name": "twitter_age_threshold",
+          "type": "u8"
+        },
+        {
+          "name": "github_age_threshold",
+          "type": "u8"
+        },
+        {
+          "name": "github_repo_threshold",
+          "type": "u8"
+        },
+        {
+          "name": "tier_1_min",
+          "type": "u8"
+        },
+        {
+          "name": "tier_2_min",
+          "type": "u8"
+        },
+        {
+          "name": "proof_validity_secs",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "request_proof",
+      "docs": [
+        "Request proof generation",
+        "Users call this to evaluate their signals against a rule"
+      ],
+      "discriminator": [
+        83,
+        230,
+        252,
+        31,
+        74,
+        242,
+        111,
+        5
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "rule_account"
+        },
+        {
+          "name": "sign_pda_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  114,
+                  99,
+                  105,
+                  117,
+                  109,
+                  83,
+                  105,
+                  103,
+                  110,
+                  101,
+                  114,
+                  65,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mxe_account"
+        },
+        {
+          "name": "mempool_account",
+          "writable": true
+        },
+        {
+          "name": "executing_pool",
+          "writable": true
+        },
+        {
+          "name": "computation_account",
+          "writable": true
+        },
+        {
+          "name": "comp_def_account"
+        },
+        {
+          "name": "cluster_account",
+          "writable": true
+        },
+        {
+          "name": "pool_account",
+          "writable": true,
+          "address": "G2sRWJvi3xoyh5k2gY49eG9L8YhAEWQPtNb1zb1GXTtC"
+        },
+        {
+          "name": "clock_account",
+          "writable": true,
+          "address": "7EbMUTLo5DjdzbN7s8BXeZwXzEwNQb1hScfRvWg8a6ot"
+        },
+        {
+          "name": "proof_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  111,
+                  102
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "rule_account"
+              },
+              {
+                "kind": "account",
+                "path": "payer"
+              },
+              {
+                "kind": "arg",
+                "path": "epoch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "arcium_program",
+          "address": "Arcj82pX7HxYKLR92qvgZUAd7vGS1k4hQvAFcPATFdEQ"
+        }
+      ],
+      "args": [
+        {
+          "name": "computation_offset",
+          "type": "u64"
+        },
+        {
+          "name": "encrypted_signals",
+          "type": {
+            "array": [
+              {
+                "array": [
+                  "u8",
+                  32
+                ]
+              },
+              5
+            ]
+          }
+        },
+        {
+          "name": "pubkey",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u128"
+        },
+        {
+          "name": "epoch",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "verify_proof",
+      "docs": [
+        "Verify a proof on-chain",
+        "Projects call this to check if a user's proof is valid and not expired"
+      ],
+      "discriminator": [
+        217,
+        211,
+        191,
+        110,
+        144,
+        13,
+        186,
+        98
+      ],
+      "accounts": [
+        {
+          "name": "rule_account"
+        },
+        {
+          "name": "proof_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  111,
+                  102
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "rule_account"
+              },
+              {
+                "kind": "account",
+                "path": "proof_account.owner",
+                "account": "Proof"
+              },
+              {
+                "kind": "arg",
+                "path": "expected_epoch"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "expected_epoch",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ArciumSignerAccount",
+      "discriminator": [
+        214,
+        157,
+        122,
+        114,
+        117,
+        44,
+        214,
+        74
+      ]
+    },
+    {
+      "name": "ClockAccount",
+      "discriminator": [
+        152,
+        171,
+        158,
+        195,
+        75,
+        61,
+        51,
+        8
+      ]
+    },
+    {
+      "name": "Cluster",
+      "discriminator": [
+        236,
+        225,
+        118,
+        228,
+        173,
+        106,
+        18,
+        60
+      ]
+    },
+    {
+      "name": "ComputationDefinitionAccount",
+      "discriminator": [
+        245,
+        176,
+        217,
+        221,
+        253,
+        104,
+        172,
+        200
+      ]
+    },
+    {
+      "name": "FeePool",
+      "discriminator": [
+        172,
+        38,
+        77,
+        146,
+        148,
+        5,
+        51,
+        242
+      ]
+    },
+    {
+      "name": "MXEAccount",
+      "discriminator": [
+        103,
+        26,
+        85,
+        250,
+        179,
+        159,
+        17,
+        117
+      ]
+    },
+    {
+      "name": "Proof",
+      "discriminator": [
+        163,
+        35,
+        13,
+        71,
+        15,
+        128,
+        63,
+        82
+      ]
+    },
+    {
+      "name": "Rule",
+      "discriminator": [
+        82,
+        10,
+        53,
+        40,
+        250,
+        61,
+        143,
+        130
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "ProofGenerated",
+      "discriminator": [
+        149,
+        90,
+        176,
+        235,
+        16,
+        158,
+        250,
+        103
+      ]
+    },
+    {
+      "name": "ProofVerified",
+      "discriminator": [
+        181,
+        54,
+        148,
+        211,
+        237,
+        73,
+        131,
+        232
+      ]
+    },
+    {
+      "name": "RuleRegistered",
+      "discriminator": [
+        15,
+        244,
+        90,
+        148,
+        192,
+        193,
+        171,
+        32
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AbortedComputation",
+      "msg": "The computation was aborted"
+    },
+    {
+      "code": 6001,
+      "name": "ClusterNotSet",
+      "msg": "Cluster not set"
+    },
+    {
+      "code": 6002,
+      "name": "ProofExpired",
+      "msg": "Proof has expired"
+    },
+    {
+      "code": 6003,
+      "name": "ProofNotFinalized",
+      "msg": "Proof has not been finalized yet"
+    },
+    {
+      "code": 6004,
+      "name": "RuleMismatch",
+      "msg": "Proof rule does not match"
+    },
+    {
+      "code": 6005,
+      "name": "EpochMismatch",
+      "msg": "Proof epoch does not match"
+    }
+  ],
+  "types": [
+    {
+      "name": "Activation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "activation_epoch",
+            "type": {
+              "defined": {
+                "name": "Epoch"
+              }
+            }
+          },
+          {
+            "name": "deactivation_epoch",
+            "type": {
+              "defined": {
+                "name": "Epoch"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ArciumSignerAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BN254G2BLSPublicKey",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "CircuitSource",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Local",
+            "fields": [
+              {
+                "defined": {
+                  "name": "LocalCircuitSource"
+                }
+              }
+            ]
+          },
+          {
+            "name": "OnChain",
+            "fields": [
+              {
+                "defined": {
+                  "name": "OnChainCircuitSource"
+                }
+              }
+            ]
+          },
+          {
+            "name": "OffChain",
+            "fields": [
+              {
+                "defined": {
+                  "name": "OffChainCircuitSource"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClockAccount",
+      "docs": [
+        "An account storing the current network epoch"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "start_epoch",
+            "type": {
+              "defined": {
+                "name": "Epoch"
+              }
+            }
+          },
+          {
+            "name": "current_epoch",
+            "type": {
+              "defined": {
+                "name": "Epoch"
+              }
+            }
+          },
+          {
+            "name": "start_epoch_timestamp",
+            "type": {
+              "defined": {
+                "name": "Timestamp"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cluster",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "td_info",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "NodeMetadata"
+                }
+              }
+            }
+          },
+          {
+            "name": "authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "cluster_size",
+            "type": "u16"
+          },
+          {
+            "name": "activation",
+            "type": {
+              "defined": {
+                "name": "Activation"
+              }
+            }
+          },
+          {
+            "name": "max_capacity",
+            "type": "u64"
+          },
+          {
+            "name": "cu_price",
+            "type": "u64"
+          },
+          {
+            "name": "cu_price_proposals",
+            "type": {
+              "array": [
+                "u64",
+                32
+              ]
+            }
+          },
+          {
+            "name": "last_updated_epoch",
+            "type": {
+              "defined": {
+                "name": "Epoch"
+              }
+            }
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "NodeRef"
+                }
+              }
+            }
+          },
+          {
+            "name": "pending_nodes",
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "bls_public_key",
+            "type": {
+              "defined": {
+                "name": "SetUnset",
+                "generics": [
+                  {
+                    "kind": "type",
+                    "type": {
+                      "defined": {
+                        "name": "BN254G2BLSPublicKey"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ComputationDefinitionAccount",
+      "docs": [
+        "An account representing a [ComputationDefinition] in a MXE."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "finalization_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "cu_amount",
+            "type": "u64"
+          },
+          {
+            "name": "definition",
+            "type": {
+              "defined": {
+                "name": "ComputationDefinitionMeta"
+              }
+            }
+          },
+          {
+            "name": "circuit_source",
+            "type": {
+              "defined": {
+                "name": "CircuitSource"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ComputationDefinitionMeta",
+      "docs": [
+        "A computation definition for execution in a MXE."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "circuit_len",
+            "type": "u32"
+          },
+          {
+            "name": "signature",
+            "type": {
+              "defined": {
+                "name": "ComputationSignature"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ComputationSignature",
+      "docs": [
+        "The signature of a computation defined in a [ComputationDefinition]."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "parameters",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "Parameter"
+                }
+              }
+            }
+          },
+          {
+            "name": "outputs",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "Output"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Epoch",
+      "docs": [
+        "The network epoch"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          "u64"
+        ]
+      }
+    },
+    {
+      "name": "EvaluateRuleOutput",
+      "docs": [
+        "The output of the callback instruction. Provided as a struct with ordered fields",
+        "as anchor does not support tuples and tuple structs yet."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "field_0",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeePool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LocalCircuitSource",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MxeKeygen"
+          },
+          {
+            "name": "MxeKeyRecoveryInit"
+          },
+          {
+            "name": "MxeKeyRecoveryFinalize"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MXEAccount",
+      "docs": [
+        "A MPC Execution Environment."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cluster",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "keygen_offset",
+            "type": "u64"
+          },
+          {
+            "name": "key_recovery_init_offset",
+            "type": "u64"
+          },
+          {
+            "name": "mxe_program_id",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "utility_pubkeys",
+            "type": {
+              "defined": {
+                "name": "SetUnset",
+                "generics": [
+                  {
+                    "kind": "type",
+                    "type": {
+                      "defined": {
+                        "name": "UtilityPubkeys"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "fallback_clusters",
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "rejected_clusters",
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "computation_definitions",
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "MxeStatus"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MxeStatus",
+      "docs": [
+        "The status of an MXE."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Recovery"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NodeMetadata",
+      "docs": [
+        "location as [ISO 3166-1 alpha-2](https://www.iso.org/iso-3166-country-codes.html) country code"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ip",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "peer_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "location",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NodeRef",
+      "docs": [
+        "A reference to a node in the cluster.",
+        "The offset is to derive the Node Account.",
+        "The current_total_rewards is the total rewards the node has received so far in the current",
+        "epoch."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "offset",
+            "type": "u32"
+          },
+          {
+            "name": "current_total_rewards",
+            "type": "u64"
+          },
+          {
+            "name": "vote",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OffChainCircuitSource",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OnChainCircuitSource",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_completed",
+            "type": "bool"
+          },
+          {
+            "name": "upload_auth",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Output",
+      "docs": [
+        "An output of a computation.",
+        "We currently don't support encrypted outputs yet since encrypted values are passed via",
+        "data objects."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PlaintextBool"
+          },
+          {
+            "name": "PlaintextU8"
+          },
+          {
+            "name": "PlaintextU16"
+          },
+          {
+            "name": "PlaintextU32"
+          },
+          {
+            "name": "PlaintextU64"
+          },
+          {
+            "name": "PlaintextU128"
+          },
+          {
+            "name": "Ciphertext"
+          },
+          {
+            "name": "ArcisX25519Pubkey"
+          },
+          {
+            "name": "PlaintextFloat"
+          },
+          {
+            "name": "PlaintextPoint"
+          },
+          {
+            "name": "PlaintextI8"
+          },
+          {
+            "name": "PlaintextI16"
+          },
+          {
+            "name": "PlaintextI32"
+          },
+          {
+            "name": "PlaintextI64"
+          },
+          {
+            "name": "PlaintextI128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Parameter",
+      "docs": [
+        "A parameter of a computation.",
+        "We differentiate between plaintext and encrypted parameters and data objects.",
+        "Plaintext parameters are directly provided as their value.",
+        "Encrypted parameters are provided as an offchain reference to the data.",
+        "Data objects are provided as a reference to the data object account."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PlaintextBool"
+          },
+          {
+            "name": "PlaintextU8"
+          },
+          {
+            "name": "PlaintextU16"
+          },
+          {
+            "name": "PlaintextU32"
+          },
+          {
+            "name": "PlaintextU64"
+          },
+          {
+            "name": "PlaintextU128"
+          },
+          {
+            "name": "Ciphertext"
+          },
+          {
+            "name": "ArcisX25519Pubkey"
+          },
+          {
+            "name": "ArcisSignature"
+          },
+          {
+            "name": "PlaintextFloat"
+          },
+          {
+            "name": "PlaintextI8"
+          },
+          {
+            "name": "PlaintextI16"
+          },
+          {
+            "name": "PlaintextI32"
+          },
+          {
+            "name": "PlaintextI64"
+          },
+          {
+            "name": "PlaintextI128"
+          },
+          {
+            "name": "PlaintextPoint"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Proof",
+      "docs": [
+        "Proof account - stores a user's verified proof result on-chain"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "rule",
+            "type": "pubkey"
+          },
+          {
+            "name": "epoch",
+            "type": "u64"
+          },
+          {
+            "name": "tier",
+            "type": "u8"
+          },
+          {
+            "name": "conditions_met",
+            "type": "u8"
+          },
+          {
+            "name": "generated_at",
+            "type": "i64"
+          },
+          {
+            "name": "expires_at",
+            "type": "i64"
+          },
+          {
+            "name": "is_finalized",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofGenerated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rule_id",
+            "type": "string"
+          },
+          {
+            "name": "proof_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "epoch",
+            "type": "u64"
+          },
+          {
+            "name": "tier",
+            "type": "u8"
+          },
+          {
+            "name": "conditions_met",
+            "type": "u8"
+          },
+          {
+            "name": "generated_at",
+            "type": "i64"
+          },
+          {
+            "name": "expires_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofVerified",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "rule_id",
+            "type": "string"
+          },
+          {
+            "name": "tier",
+            "type": "u8"
+          },
+          {
+            "name": "valid",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Rule",
+      "docs": [
+        "Rule account - stores verification criteria for a project"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "rule_id",
+            "type": "string"
+          },
+          {
+            "name": "wallet_age_threshold",
+            "type": "u8"
+          },
+          {
+            "name": "tx_count_threshold",
+            "type": "u8"
+          },
+          {
+            "name": "twitter_age_threshold",
+            "type": "u8"
+          },
+          {
+            "name": "github_age_threshold",
+            "type": "u8"
+          },
+          {
+            "name": "github_repo_threshold",
+            "type": "u8"
+          },
+          {
+            "name": "tier_1_min",
+            "type": "u8"
+          },
+          {
+            "name": "tier_2_min",
+            "type": "u8"
+          },
+          {
+            "name": "proof_validity_secs",
+            "type": "i64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RuleRegistered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rule_id",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "proof_validity_secs",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetUnset",
+      "docs": [
+        "Utility struct to store a value that needs to be set by a certain number of participants (keys",
+        "in our case). Once all participants have set the value, the value is considered set and we only",
+        "store it once."
+      ],
+      "generics": [
+        {
+          "kind": "type",
+          "name": "T"
+        }
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Set",
+            "fields": [
+              {
+                "generic": "T"
+              }
+            ]
+          },
+          {
+            "name": "Unset",
+            "fields": [
+              {
+                "generic": "T"
+              },
+              {
+                "vec": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "SignedComputationOutputs",
+      "generics": [
+        {
+          "kind": "type",
+          "name": "O"
+        }
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Success",
+            "fields": [
+              {
+                "generic": "O"
+              },
+              {
+                "array": [
+                  "u8",
+                  64
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Failure"
+          },
+          {
+            "name": "MarkerForIdlBuildDoNotUseThis",
+            "fields": [
+              {
+                "generic": "O"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Timestamp",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UtilityPubkeys",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "x25519_pubkey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "ed25519_verifying_key",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "elgamal_pubkey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "pubkey_validity_proof",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
