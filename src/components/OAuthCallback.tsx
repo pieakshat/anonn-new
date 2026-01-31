@@ -1,6 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
 import { Loader2, CheckCircle, XCircle } from 'lucide-react';
-import { TWITTER_CLIENT_ID, API_BASE_URL } from '../lib/constants';
+import { API_BASE_URL } from '../lib/constants';
 import { exchangeTwitterCode, fetchTwitterUser } from '../sdk/signals/twitter';
 import { fetchGitHubUser } from '../sdk/signals/github';
 
@@ -69,7 +69,6 @@ export const OAuthCallback: FC<OAuthCallbackProps> = ({ provider }) => {
 
     // Exchange code for token
     const accessToken = await exchangeTwitterCode(
-      TWITTER_CLIENT_ID,
       code,
       `${window.location.origin}/oauth/callback/twitter`,
       codeVerifier
